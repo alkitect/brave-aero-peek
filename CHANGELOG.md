@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- README: Ubuntu Dock hover screenshot under **What this does**.
+
 ## 0.2.8
 
 - Hover dwell peek strip on Ubuntu Dock for Brave (favicon + title above cached PNG thumbs).

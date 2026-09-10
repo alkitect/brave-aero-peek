@@ -10,6 +10,8 @@
 
 On **Ubuntu with GNOME Wayland**, the Ubuntu Dock shows window previews on click, but not **per-tab** peeks for Brave. This tool bridges a small Brave extension, a session D-Bus host, and a GNOME Shell extension so hovering the Brave dock icon lists your tabs with favicons and **cached** page thumbnails.
 
+![Brave Aero peek on Ubuntu Dock — hover the Brave icon to see tab title and thumbnail cards](docs/images/ubuntu-dock-brave-aero-peek.png)
+
 **Safe by default for click behavior:** dock **click** stays stock `minimize-or-previews`. Peek is hover-only. Thumbnails are captures from when a tab was last visible (Chromium cannot screenshot background tabs live).
 
 ## Who this is for
