@@ -2,7 +2,6 @@
 
 Hover Brave on the Ubuntu Dock and pick a **tab** from thumbnails — Aero-style peek for Linux.
 
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/alkitect/?hidefeed=true&widget=true&embed=true)
 
 ## What this does
 
@@ -62,6 +61,12 @@ You want the hover strip to appear, a card click to focus that tab, and dock cli
 - If hover does nothing after enable: confirm Wayland logout/in, then that `browser-tab-dock@alkitect` is enabled.
 
 Maintainers: `./scripts/ci-check.sh`.
+
+## Support my work
+
+Tip jar for the next dock hack. Or a coffee so I don’t ship another peek that eats your session bus.
+
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/alkitect/?hidefeed=true&widget=true&embed=true)
 
 ## Uninstall
 
