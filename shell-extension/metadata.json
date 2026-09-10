@@ -1,0 +1,13 @@
+{
+  "name": "Brave Aero Peek",
+  "description": "Linux/Ubuntu Dock: Brave tab thumbnail strip on hover. Stock click unchanged.",
+  "uuid": "browser-tab-dock@alkitect",
+  "version": 9,
+  "shell-version": [
+    "42"
+  ],
+  "session-modes": [
+    "user"
+  ],
+  "url": "https://github.com/alkitect/brave-aero-peek"
+}
