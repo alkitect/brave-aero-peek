@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- README: humanize flow (problem → peek → screenshot; Quick start as numbered story).
 - README: Ubuntu Dock hover screenshot under **What this does**.
 
 ## 0.2.8

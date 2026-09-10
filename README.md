@@ -1,23 +1,24 @@
 # Brave Aero peek
 
-**Linux / Ubuntu Dock** tab thumbnails for Brave: hover the Brave dock icon and get an Aero-style peek strip.
+Hover Brave on the Ubuntu Dock and see your **tabs** as thumbnails — Aero-style peek for Linux.
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/alkitect/?hidefeed=true&widget=true&embed=true)
 
-**Installed names:** `browser-tabs-host`, user unit `alkitect-browser-tabs.service`, Shell uuid `browser-tab-dock@alkitect`, Brave MV3 “Alkitect Browser Tab Dock”.
-
 ## What this does
 
-On **Ubuntu with GNOME Wayland**, the Ubuntu Dock shows window previews on click, but not **per-tab** peeks for Brave. This tool bridges a small Brave extension, a session D-Bus host, and a GNOME Shell extension so hovering the Brave dock icon lists your tabs with favicons and **cached** page thumbnails.
+The Ubuntu Dock already shows **window** previews when you click. It does not show **tabs** while you hover — so picking the right Brave tab still means restoring the window and hunting the tab strip.
+
+This tool adds a hover peek: pause on the Brave dock icon and you get a strip of tab titles, favicons, and **cached** page thumbnails. Click a card to jump straight to that tab.
 
 ![Brave Aero peek on Ubuntu Dock — hover the Brave icon to see tab title and thumbnail cards](docs/images/ubuntu-dock-brave-aero-peek.png)
 
-**Safe by default for click behavior:** dock **click** stays stock `minimize-or-previews`. Peek is hover-only. Thumbnails are captures from when a tab was last visible (Chromium cannot screenshot background tabs live).
+**Safe for click behavior:** dock **click** stays stock minimize-or-previews. Peek is hover-only. Thumbnails are from the last time that tab was on screen (Chromium cannot screenshot background tabs live).
 
 ## Who this is for
 
-- **In:** **Linux** — Ubuntu 22.04 + GNOME Shell 42 **Wayland**, **Ubuntu Dock**, **Brave `.deb`**
-- **Not for:** non-Linux; Firefox; Chrome/Edge/Opera/Vivaldi (not wired); Flatpak/Snap Brave; other desktops; replacing global dock click-action
+- **In:** Ubuntu 22.04 + GNOME Shell 42 **Wayland**, Ubuntu Dock, and the **Brave `.deb`**
+- **In:** You keep several Brave tabs open and want to pick one from the dock without guessing
+- **Not for:** Firefox; Chrome / Edge / Opera / Vivaldi; Flatpak or Snap Brave; non-GNOME desktops; replacing the global dock click-action
 
 ## Quick start
 
@@ -26,30 +27,37 @@ git clone https://github.com/alkitect/brave-aero-peek.git
 cd brave-aero-peek
 chmod +x scripts/*.sh
 ./scripts/install-to-local.sh --enable-automation
-./scripts/verify-host-cli.sh
-./scripts/verify-dbus.sh
 ```
 
-**Brave:** `brave://extensions` → Developer mode → Load unpacked → `browser-extension/`. Confirm ID matches `browser-extension/extension-id.txt`. Fully quit and relaunch Brave, then `browser-tabs-host cli list`.
+**What you installed:** the `browser-tabs-host` daemon (user unit `alkitect-browser-tabs.service`), native-messaging manifest for Brave, and Shell files for `browser-tab-dock@alkitect`. The host starts with your graphical session. You still connect Brave and enable the Shell extension yourself.
 
-**Shell (Wayland needs logout/in after enable):**
+**1. Brave** — `brave://extensions` → Developer mode → Load unpacked → `browser-extension/`. Confirm the ID matches `browser-extension/extension-id.txt`. Fully quit and relaunch Brave, then run `browser-tabs-host cli list`.
+
+**2. Shell** — Wayland needs a logout after enable:
 
 ```bash
 gnome-extensions enable browser-tab-dock@alkitect
 # log out and back in
 ```
 
-Then hover Brave on the **Ubuntu Dock** (one window, ≥2 tabs). Click the icon still minimize-or-previews.
+**3. Try it** — open one Brave window with at least two tabs. Hover the Brave dock icon briefly; click a card to activate that tab. Clicking the icon itself still minimize-or-previews.
+
+**Needs:** Ubuntu GNOME Wayland, Brave `.deb`, `systemd --user`, and a session where you can enable GNOME Shell extensions.
 
 ## Check it works
+
+You want the hover strip to appear, a card click to focus that tab, and dock click unchanged.
 
 ```bash
 ./scripts/verify-host-cli.sh
 ./scripts/verify-dbus.sh
 ./scripts/verify-shell-fake.sh
-# Human checklist after Shell reload:
+# After Shell reload / logout, human checklist:
 ./scripts/verify-e2e.sh
 ```
+
+- If `cli list` says no extension: reload the unpacked add-on, quit Brave fully, relaunch, try again.
+- If hover does nothing after enable: confirm Wayland logout/in, then that `browser-tab-dock@alkitect` is enabled.
 
 Maintainers: `./scripts/ci-check.sh`.
 
@@ -59,26 +67,28 @@ Maintainers: `./scripts/ci-check.sh`.
 ./scripts/uninstall-from-local.sh
 ```
 
-Does not unload the Brave extension (remove it in `brave://extensions`).
+Remove the add-on in `brave://extensions` if you loaded it unpacked. That step is manual.
 
 ## How it works
 
+Three small pieces share tab state with the dock:
+
 | Piece | Role |
 |-------|------|
-| Brave MV3 | Lists/activates tabs; inlines favicons; caches visible-tab PNG thumbs |
-| `browser-tabs-host` | Native messaging ↔ session D-Bus `org.alkitect.BrowserTabs1` |
-| Shell extension | Hover dwell on **Ubuntu Dock** → peek strip; Activate + raise window |
-| systemd user unit | Owns the host (`WantedBy=graphical-session.target`) |
+| Brave MV3 add-on | Lists / activates tabs; inlines favicons; caches visible-tab PNG thumbs |
+| `browser-tabs-host` | Native messaging ↔ session D-Bus |
+| Shell extension | Hover dwell on the Ubuntu Dock → peek strip; raise the window after Activate |
 
-Versions: MV3 `browser-extension/manifest.json` (public tag tracks this) · Shell `metadata.json` integer (GNOME scheme). Architecture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) · [ADR-001](docs/architecture/ADR-001-ipc-and-dock-intercept.md) · [SECURITY.md](docs/SECURITY.md).
+Installed names: `browser-tabs-host`, `alkitect-browser-tabs.service`, Shell uuid `browser-tab-dock@alkitect`, Brave add-on “Alkitect Browser Tab Dock”.
+
+Versions: MV3 `browser-extension/manifest.json` (git tags track this) · Shell `metadata.json` integer (GNOME scheme). Deeper reading: [ARCHITECTURE](docs/ARCHITECTURE.md) · [ADR-001](docs/architecture/ADR-001-ipc-and-dock-intercept.md) · [SECURITY](docs/SECURITY.md).
 
 ## Limits & safety
 
-- **Linux + Ubuntu Dock + Brave `.deb` only** — other OSes, docks, browsers, and Flatpak/Snap Brave are unsupported.
-- **Single Brave window** with ≥2 tabs for peek; multi-window → no tab strip (stock window previews OK).
-- **Thumbs are page screenshots** (more sensitive than titles). Same-UID callers on D-Bus or the Unix socket can read titles, favicons, and thumbs — see [SECURITY.md](docs/SECURITY.md).
-- Native messaging `allowed_origins` is **one** extension ID. Do not publish `extension.pem` / `manifest-key.txt` (manifest `key` is public on purpose).
-- Hover dwell + host rate limits reduce scrub spam.
+- **Linux + Ubuntu Dock + Brave `.deb` only** — other OSes, docks, and browsers are unsupported.
+- **One Brave window** with ≥2 tabs for peek; several Brave windows → no tab strip (stock window previews still work).
+- **Thumbnails are page screenshots** (more sensitive than titles). Same-UID processes on D-Bus or the host socket can read them — details in [SECURITY.md](docs/SECURITY.md).
+- Hover dwell and host rate limits reduce spam while scrubbing past the icon.
 - This GitHub repo is the **release source** for tagged releases and public docs — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
