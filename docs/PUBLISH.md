@@ -19,11 +19,11 @@ Repo URL (after create): `https://github.com/alkitect/brave-aero-peek`
 
 **Do not** ship `extension.pem` or `manifest-key.txt`.
 
-## Human gate (local extract)
+## Human gate
 
-Local nested git is ready when `./scripts/ci-check.sh` passes and there is no `git remote`. **Do not** run the GitHub steps below until a human explicitly asks to publish.
+**Published:** GitHub `alkitect/brave-aero-peek`, first tag `v0.2.8`.
 
-Optional soak (does not block local extract): logout/in + `./scripts/verify-e2e.sh` scrub/corridor/header checklist.
+Optional soak (does not block the tag): logout/in + `./scripts/verify-e2e.sh` scrub/corridor/header checklist.
 
 ## GitHub About
 
