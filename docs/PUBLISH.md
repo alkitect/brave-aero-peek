@@ -2,6 +2,8 @@
 
 Before tag: README must pass `./scripts/ci-check.sh` (required H2s + README ban tokens + Ko-fi `FUNDING.yml` / tip link + secret-file bans). See [CONTRIBUTING.md](../CONTRIBUTING.md) § README conventions.
 
+README variant: B
+
 First public tag: v0.2.8
 
 **V-001 exception:** first tag equals MV3 `browser-extension/manifest.json` version (`0.2.8`), not a greenfield `0.1.0` invent. Shell metadata integer stays separate.

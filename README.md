@@ -1,18 +1,18 @@
 # Brave Aero peek
 
-Hover Brave on the Ubuntu Dock and see your **tabs** as thumbnails — Aero-style peek for Linux.
+Hover Brave on the Ubuntu Dock and pick a **tab** from thumbnails — Aero-style peek for Linux.
 
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/alkitect/?hidefeed=true&widget=true&embed=true)
 
 ## What this does
 
-The Ubuntu Dock already shows **window** previews when you click. It does not show **tabs** while you hover — so picking the right Brave tab still means restoring the window and hunting the tab strip.
+Click the Brave icon and Ubuntu Dock shows **window** previews. Hover does nothing for **tabs** — so you still restore the window and hunt the tab strip.
 
-This tool adds a hover peek: pause on the Brave dock icon and you get a strip of tab titles, favicons, and **cached** page thumbnails. Click a card to jump straight to that tab.
+This adds a hover peek. Pause on the Brave dock icon and you get a strip of titles, favicons, and **cached** page thumbnails. Click a card; that tab comes forward.
 
 ![Brave Aero peek on Ubuntu Dock — hover the Brave icon to see tab title and thumbnail cards](docs/images/ubuntu-dock-brave-aero-peek.png)
 
-**Safe for click behavior:** dock **click** stays stock minimize-or-previews. Peek is hover-only. Thumbnails are from the last time that tab was on screen (Chromium cannot screenshot background tabs live).
+Dock **click** stays stock minimize-or-previews. Peek is hover-only. Thumbnails are from the last time that tab was on screen — Chromium can’t screenshot background tabs live.
 
 ## Who this is for
 
@@ -29,9 +29,9 @@ chmod +x scripts/*.sh
 ./scripts/install-to-local.sh --enable-automation
 ```
 
-**What you installed:** the `browser-tabs-host` daemon (user unit `alkitect-browser-tabs.service`), native-messaging manifest for Brave, and Shell files for `browser-tab-dock@alkitect`. The host starts with your graphical session. You still connect Brave and enable the Shell extension yourself.
+**What you installed:** the `browser-tabs-host` daemon (user unit `alkitect-browser-tabs.service`), the native-messaging manifest for Brave, and Shell files for `browser-tab-dock@alkitect`. The host starts with your graphical session. You still connect Brave and enable the Shell extension yourself.
 
-**1. Brave** — `brave://extensions` → Developer mode → Load unpacked → `browser-extension/`. Confirm the ID matches `browser-extension/extension-id.txt`. Fully quit and relaunch Brave, then run `browser-tabs-host cli list`.
+**1. Brave** — open `brave://extensions` → Developer mode → Load unpacked → `browser-extension/`. Confirm the ID matches `browser-extension/extension-id.txt`. Fully quit and relaunch Brave, then run `browser-tabs-host cli list`.
 
 **2. Shell** — Wayland needs a logout after enable:
 
