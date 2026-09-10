@@ -6,13 +6,15 @@ Hover Brave on the Ubuntu Dock and pick a **tab** from thumbnails — Aero-style
 
 ## What this does
 
-Click the Brave icon and Ubuntu Dock shows **window** previews. Hover does nothing for **tabs** — so you still restore the window and hunt the tab strip.
+Ubuntu Dock shows **window** previews when you click Brave. Tabs? Hover does nothing — so you restore the window and hunt the strip.
 
-This adds a hover peek. Pause on the Brave dock icon and you get a strip of titles, favicons, and **cached** page thumbnails. Click a card; that tab comes forward.
+Pause on the Brave dock icon and you get titles, favicons, and **cached** page thumbnails. Click a card; that tab comes forward.
+
+Thumbnails are screenshots from the last time that tab was visible — Chromium can’t capture background tabs live. Treat them like page content on the local session bus (details under **Limits & safety**).
 
 ![Brave Aero peek on Ubuntu Dock — hover the Brave icon to see tab title and thumbnail cards](docs/images/ubuntu-dock-brave-aero-peek.png)
 
-Dock **click** stays stock minimize-or-previews. Peek is hover-only. Thumbnails are from the last time that tab was on screen — Chromium can’t screenshot background tabs live.
+Dock **click** stays stock minimize-or-previews. Peek is hover-only.
 
 ## Who this is for
 
@@ -29,7 +31,7 @@ chmod +x scripts/*.sh
 ./scripts/install-to-local.sh --enable-automation
 ```
 
-**What you installed:** the `browser-tabs-host` daemon (user unit `alkitect-browser-tabs.service`), the native-messaging manifest for Brave, and Shell files for `browser-tab-dock@alkitect`. The host starts with your graphical session. You still connect Brave and enable the Shell extension yourself.
+**What you installed:** three pieces — a user daemon (`alkitect-browser-tabs.service`), Brave’s native-messaging hook, and Shell extension `browser-tab-dock@alkitect`. The host starts with your graphical session. You still load the Brave add-on and enable the Shell extension yourself.
 
 **1. Brave** — open `brave://extensions` → Developer mode → Load unpacked → `browser-extension/`. Confirm the ID matches `browser-extension/extension-id.txt`. Fully quit and relaunch Brave, then run `browser-tabs-host cli list`.
 
