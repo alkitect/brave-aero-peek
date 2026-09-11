@@ -21,6 +21,14 @@ fi
 }
 
 # Headless CI / SSH: GLib will not autolaunch a session bus without $DISPLAY.
+# Under ALKITECT_CI_TMP: always use a private bus — a live multi-browser unit on
+# the real session bus owns org.alkitect.BrowserTabs1 and breaks unscoped cli list.
+if [[ -n "${ALKITECT_CI_TMP:-}" && -z "${ALKITECT_VERIFY_HOST_PRIVATE_BUS:-}" ]]; then
+  if command -v dbus-run-session >/dev/null 2>&1; then
+    export ALKITECT_VERIFY_HOST_PRIVATE_BUS=1
+    exec dbus-run-session -- "$0" "$@"
+  fi
+fi
 if [[ -z "${DBUS_SESSION_BUS_ADDRESS:-}" ]]; then
   if command -v dbus-run-session >/dev/null 2>&1; then
     exec dbus-run-session -- "$0" "$@"

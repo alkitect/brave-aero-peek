@@ -1,5 +1,7 @@
 # Brave Aero peek
 
+> **Deprecated.** This Brave-only lane is frozen. New installs and all ongoing work belong in **[alkitect/browser-aero-peek](https://github.com/alkitect/browser-aero-peek)** (Brave + Chrome + Opera + Vivaldi + Chromium Snap). Installing from here overwrites that product’s host unit — do not alternate.
+
 Hover Brave on the Ubuntu Dock and pick a **tab** from thumbnails — Aero-style peek for Linux.
 
 
@@ -17,11 +19,14 @@ Dock **click** stays stock minimize-or-previews. Peek is hover-only.
 
 ## Who this is for
 
-- **In:** Ubuntu 22.04 + GNOME Shell 42 **Wayland**, Ubuntu Dock, and the **Brave `.deb`**
-- **In:** You keep several Brave tabs open and want to pick one from the dock without guessing
-- **Not for:** Firefox; Chrome / Edge / Opera / Vivaldi; Flatpak or Snap Brave; non-GNOME desktops; replacing the global dock click-action
+- **Prefer:** [browser-aero-peek](https://github.com/alkitect/browser-aero-peek) — same Brave peek plus the multi-browser roadmap
+- **Historical In:** Ubuntu 22.04 + GNOME Shell 42 **Wayland**, Ubuntu Dock, and the **Brave `.deb`**
+- **Historical In:** You keep several Brave tabs open and want to pick one from the dock without guessing
+- **Not for:** Firefox; Chrome / Edge / Opera / Vivaldi; Flatpak or Snap Brave; non-GNOME desktops; replacing the global dock click-action; **new installs** (use browser-aero-peek)
 
 ## Quick start
+
+Prefer cloning **[browser-aero-peek](https://github.com/alkitect/browser-aero-peek)**. The steps below remain for rollback or reading old tags only.
 
 ```bash
 git clone https://github.com/alkitect/brave-aero-peek.git
@@ -96,12 +101,12 @@ Versions: MV3 `browser-extension/manifest.json` (git tags track this) · Shell `
 - **One Brave window** with ≥2 tabs for peek; several Brave windows → no tab strip (stock window previews still work).
 - **Thumbnails are page screenshots** (more sensitive than titles). Same-UID processes on D-Bus or the host socket can read them — details in [SECURITY.md](docs/SECURITY.md).
 - Hover dwell and host rate limits reduce spam while scrubbing past the icon.
-- This GitHub repo is the **release source** for tagged releases and public docs — see [CONTRIBUTING.md](CONTRIBUTING.md).
+- This GitHub repo remains a **historical** release source for Brave-only tags; prefer [browser-aero-peek](https://github.com/alkitect/browser-aero-peek) — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Related
 
-- **Multi-browser daily driver:** [alkitect/browser-aero-peek](https://github.com/alkitect/browser-aero-peek) — continued development and browser roadmap. This Brave-only lane does **not** receive Wave Chromium+ commits.
-- **Install clash:** Installing either product overwrites the same unit/UUID/NM hook. Do not alternate. After cutover, prefer **browser-aero-peek** as the host daily driver. Rollback to this repo is overwrite-install from here.
+- **Successor (use this):** [alkitect/browser-aero-peek](https://github.com/alkitect/browser-aero-peek) — active multi-browser release source. This repo is **deprecated** and does not receive new browser work.
+- **Install clash:** Installing either product overwrites the same unit/UUID/NM hook. Do not alternate. Daily driver = **browser-aero-peek** only.
 
 ## License
 
