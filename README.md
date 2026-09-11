@@ -86,7 +86,7 @@ Three small pieces share tab state with the dock:
 | `browser-tabs-host` | Native messaging ↔ session D-Bus |
 | Shell extension | Hover dwell on the Ubuntu Dock → peek strip; raise the window after Activate |
 
-Installed names: `browser-tabs-host`, `alkitect-browser-tabs.service`, Shell uuid `browser-tab-dock@alkitect`, Brave add-on “Alkitect Browser Tab Dock”.
+Installed names: `browser-tabs-host`, `alkitect-browser-tabs.service`, Shell “Brave Aero Peek” (`browser-tab-dock@alkitect`, author: alkitect), Brave add-on “Browser Tab Dock” (author: alkitect).
 
 Versions: MV3 `browser-extension/manifest.json` (git tags track this) · Shell `metadata.json` integer (GNOME scheme). Deeper reading: [ARCHITECTURE](docs/ARCHITECTURE.md) · [ADR-001](docs/architecture/ADR-001-ipc-and-dock-intercept.md) · [SECURITY](docs/SECURITY.md).
 

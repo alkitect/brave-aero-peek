@@ -644,7 +644,7 @@ class Extension {
                 if (!this._warnedNoExt && msg.indexOf('NoExtension') !== -1) {
                     this._warnedNoExt = true;
                     Main.notify('Browser Tab Dock',
-                        'Brave extension not connected. Open Brave, reload Alkitect Tab Dock, then hover again.');
+                        'Brave extension not connected. Open Brave, reload Browser Tab Dock, then hover again.');
                 }
             }
         });

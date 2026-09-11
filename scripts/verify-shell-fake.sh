@@ -36,7 +36,7 @@ if grep -q 'PopupImageMenuItem\|PopupMenuItem' "$SRC"; then
   fail "source still uses PopupMenuItem (ornament padding)"
 fi
 if [[ -f "$META" ]]; then
-  grep -q '"version": 9' "$META" || fail "metadata.json version must be 9"
+  grep -q '"version": 10' "$META" || fail "metadata.json version must be 10"
 fi
 pass "source is hover-dwell + peek strip (polish batch)"
 

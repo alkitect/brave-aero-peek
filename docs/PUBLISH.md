@@ -6,15 +6,17 @@ README variant: B
 
 First public tag: v0.2.8
 
-**V-001 exception:** first tag equals MV3 `browser-extension/manifest.json` version (`0.2.8`), not a greenfield `0.1.0` invent. Shell metadata integer stays separate.
+Current tag: v0.2.9
+
+**V-001 exception:** first tag equals MV3 `browser-extension/manifest.json` version (`0.2.8`), not a greenfield `0.1.0` invent. Shell metadata integer stays separate. After the first tag, bump MV3 + CHANGELOG, then tag (`Current tag` tracks tip).
 
 Default first tag is usually 0.1.0. Never copy another alkitect repo’s tag. Use `RC-BEFORE-1.0` in this file only for an intentional 0.9.x RC.
 
 ```bash
 ./scripts/ci-check.sh
-git tag -a v0.2.8 -m "v0.2.8"
+git tag -a v0.2.9 -m "v0.2.9"
 git push origin main
-git push origin v0.2.8
+git push origin v0.2.9
 ```
 
 Repo URL (after create): `https://github.com/alkitect/brave-aero-peek`
@@ -23,7 +25,7 @@ Repo URL (after create): `https://github.com/alkitect/brave-aero-peek`
 
 ## Human gate
 
-**Published:** GitHub `alkitect/brave-aero-peek`, first tag `v0.2.8`.
+**Published:** GitHub `alkitect/brave-aero-peek`, first tag `v0.2.8`, current `v0.2.9`.
 
 Optional soak (does not block the tag): logout/in + `./scripts/verify-e2e.sh` scrub/corridor/header checklist.
 

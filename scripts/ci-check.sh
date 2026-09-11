@@ -80,19 +80,21 @@ fi
 grep -qF 'EXT_ID_PLACEHOLDER' "${tmpl}" \
   || { echo "ci-check: NM template missing EXT_ID_PLACEHOLDER" >&2; exit 1; }
 
-# Version triad: PUBLISH + MV3 + CHANGELOG
+# Version triad: First public tag stays v0.2.8; current release must match MV3 + CHANGELOG
 grep -qF 'First public tag: v0.2.8' docs/PUBLISH.md \
   || { echo "ci-check: docs/PUBLISH.md must record First public tag: v0.2.8" >&2; exit 1; }
+grep -qF 'Current tag: v0.2.9' docs/PUBLISH.md \
+  || { echo "ci-check: docs/PUBLISH.md must record Current tag: v0.2.9" >&2; exit 1; }
 python3 - <<'PY'
 import json, sys
 from pathlib import Path
 v = json.loads(Path("browser-extension/manifest.json").read_text())["version"]
-if v != "0.2.8":
-    print(f"ci-check: MV3 version {v!r} != 0.2.8", file=sys.stderr)
+if v != "0.2.9":
+    print(f"ci-check: MV3 version {v!r} != 0.2.9", file=sys.stderr)
     sys.exit(1)
 PY
-grep -qE '^## 0\.2\.8' CHANGELOG.md \
-  || { echo "ci-check: CHANGELOG missing ## 0.2.8" >&2; exit 1; }
+grep -qE '^## 0\.2\.9' CHANGELOG.md \
+  || { echo "ci-check: CHANGELOG missing ## 0.2.9" >&2; exit 1; }
 
 # Absolute home paths (any username) must not appear in shipped sources.
 # Encoded so this script does not embed a concrete account name.

@@ -2,8 +2,13 @@
 
 ## Unreleased
 
+## 0.2.9
+
+- MV3 / Shell: drop “Alkitect” from display names; credit `alkitect` as author in metadata/description (Shell `author` field + description).
+- Shell metadata integer 10 (author/description metadata).
 - README: humanize flow (problem → peek → screenshot; Quick start as numbered story).
 - README: Ubuntu Dock hover screenshot under **What this does**.
+- README: Related + Install clash notes for the multi-browser daily-driver lane.
 
 ## 0.2.8
 
