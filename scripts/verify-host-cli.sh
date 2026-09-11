@@ -4,6 +4,9 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 HOST="${ROOT}/host/browser_tabs_host.py"
+# Prefer distro python3 (PyGObject); conda envs often lack gi.
+PYTHON3="/usr/bin/python3"
+[[ -x "${PYTHON3}" ]] || PYTHON3="$(command -v python3)"
 export PATH="${HOME}/.local/bin:${PATH}"
 
 if [[ ! -x "${HOME}/.local/bin/browser-tabs-host" ]]; then
@@ -11,23 +14,39 @@ if [[ ! -x "${HOME}/.local/bin/browser-tabs-host" ]]; then
   exit 1
 fi
 
-python3 -m py_compile "${HOST}"
+"${PYTHON3}" -m py_compile "${HOST}"
+"${PYTHON3}" -c 'import gi' || {
+  echo "verify-host-cli: need PyGObject (python3-gi) on ${PYTHON3}" >&2
+  exit 1
+}
 
-# Prefer installed unit; fall back to foreground daemon for CI/tmp.
+# Headless CI / SSH: GLib will not autolaunch a session bus without $DISPLAY.
+if [[ -z "${DBUS_SESSION_BUS_ADDRESS:-}" ]]; then
+  if command -v dbus-run-session >/dev/null 2>&1; then
+    exec dbus-run-session -- "$0" "$@"
+  fi
+  echo "verify-host-cli: need a session D-Bus (dbus-run-session / graphical login)" >&2
+  exit 1
+fi
+
+# Prefer installed unit; fall back to foreground daemon.
+# Under ALKITECT_CI_TMP: never touch live systemctl — always local daemon on tmp XDG_RUNTIME_DIR.
 STARTED_LOCAL=0
-if ! systemctl --user is-active --quiet alkitect-browser-tabs.service 2>/dev/null; then
-  python3 "${HOST}" daemon &
+DAEMON_PID=""
+if [[ -n "${ALKITECT_CI_TMP:-}" ]]; then
+  "${PYTHON3}" "${HOST}" daemon &
   DAEMON_PID=$!
   STARTED_LOCAL=1
-  cleanup() {
-    kill "${DAEMON_PID}" 2>/dev/null || true
-  }
-  trap cleanup EXIT
+  sleep 0.4
+elif ! systemctl --user is-active --quiet alkitect-browser-tabs.service 2>/dev/null; then
+  "${PYTHON3}" "${HOST}" daemon &
+  DAEMON_PID=$!
+  STARTED_LOCAL=1
   sleep 0.4
 fi
 
 # Fake extension: answer list/activate on the daemon socket
-python3 - <<'PY' &
+"${PYTHON3}" - <<'PY' &
 import json, os, socket, struct, time
 from pathlib import Path
 
@@ -79,7 +98,7 @@ FAKE_PID=$!
 
 cleanup_all() {
   kill "${FAKE_PID}" 2>/dev/null || true
-  if [[ "${STARTED_LOCAL}" -eq 1 ]]; then
+  if [[ "${STARTED_LOCAL}" -eq 1 && -n "${DAEMON_PID}" ]]; then
     kill "${DAEMON_PID}" 2>/dev/null || true
   fi
 }
@@ -91,7 +110,7 @@ browser-tabs-host cli status
 echo "=== list ==="
 OUT="$(browser-tabs-host cli list)"
 echo "${OUT}"
-OUT="${OUT}" python3 - <<'PY'
+OUT="${OUT}" "${PYTHON3}" - <<'PY'
 import json, os
 tabs = json.loads(os.environ["OUT"])
 assert len(tabs) >= 3, tabs

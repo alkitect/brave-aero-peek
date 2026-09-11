@@ -180,8 +180,29 @@ if origins != [f"chrome-extension://{ext}/"]:
     sys.exit(1)
 PY
 
-# Host CLI needs system python3-gi + a free bus name; packaging gate is install layout + shell-fake.
-echo 'ci-check: INFO skip verify-host-cli'
+# Live unit must be unchanged across verify (ALKITECT_CI_TMP must not stop/start it).
+_unit_snap() {
+  {
+    systemctl --user is-enabled alkitect-browser-tabs.service 2>/dev/null || echo "is-enabled:n/a"
+    systemctl --user show alkitect-browser-tabs.service -p ActiveState,UnitFileState,SubState --no-page 2>/dev/null \
+      || echo "show:n/a"
+  } >"$1"
+}
+_snap_before="$(mktemp)"
+_snap_after="$(mktemp)"
+_unit_snap "${_snap_before}"
+
+# Host CLI + D-Bus (requires python3-gi); re-exec under dbus-run-session when needed.
+export PATH="${tmp}/.local/bin:${PATH}"
+./scripts/verify-host-cli.sh
+
+_unit_snap "${_snap_after}"
+if ! diff -q "${_snap_before}" "${_snap_after}" >/dev/null; then
+  echo "ci-check: alkitect-browser-tabs.service state changed during verify-host-cli:" >&2
+  diff -u "${_snap_before}" "${_snap_after}" >&2 || true
+  exit 1
+fi
+rm -f "${_snap_before}" "${_snap_after}"
 
 "${ROOT}/scripts/uninstall-from-local.sh"
 test ! -e "${tmp}/.local/bin/browser-tabs-host"
