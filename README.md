@@ -98,6 +98,11 @@ Versions: MV3 `browser-extension/manifest.json` (git tags track this) · Shell `
 - Hover dwell and host rate limits reduce spam while scrubbing past the icon.
 - This GitHub repo is the **release source** for tagged releases and public docs — see [CONTRIBUTING.md](CONTRIBUTING.md).
 
+## Related
+
+- **Multi-browser daily driver:** [alkitect/browser-aero-peek](https://github.com/alkitect/browser-aero-peek) — continued development and browser roadmap. This Brave-only lane does **not** receive Wave Chromium+ commits.
+- **Install clash:** Installing either product overwrites the same unit/UUID/NM hook. Do not alternate. After cutover, prefer **browser-aero-peek** as the host daily driver. Rollback to this repo is overwrite-install from here.
+
 ## License
 
 GPL-3.0-only — see [LICENSE](LICENSE).
